@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0ffagtb" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0ffagtb" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
   <bpmn:process id="AnimalPictureFetcherProcess" name="Animal Picture Fetcher" isExecutable="true">
     <bpmn:startEvent id="AnimalPictureRequiredStartEvent" name="Animal picture required">
       <bpmn:outgoing>Flow_1yb2fgr</bpmn:outgoing>
@@ -11,24 +11,12 @@
       <bpmn:outgoing>DogSequenceFlow</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1yb2fgr" sourceRef="AnimalPictureRequiredStartEvent" targetRef="WhichKindOfAnimalGateway" />
-    <bpmn:task id="FetchCatPictureTask" name="Fetch cat picture">
-      <bpmn:incoming>CatSequenceFlow</bpmn:incoming>
-      <bpmn:outgoing>Flow_1p85zxp</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:sequenceFlow id="CatSequenceFlow" name="cat" sourceRef="WhichKindOfAnimalGateway" targetRef="FetchCatPictureTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=animalKind = "cat"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:task id="FetchBearPictureTask" name="Fetch bear picture">
-      <bpmn:incoming>BearSequenceFlow</bpmn:incoming>
-      <bpmn:outgoing>Flow_0oxr12h</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:sequenceFlow id="BearSequenceFlow" name="bear" sourceRef="WhichKindOfAnimalGateway" targetRef="FetchBearPictureTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=animalKind = "bear"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:task id="FetchDogPictureTask" name="Fetch dog picture">
-      <bpmn:incoming>DogSequenceFlow</bpmn:incoming>
-      <bpmn:outgoing>Flow_0lw1ax7</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:sequenceFlow id="DogSequenceFlow" name="dog" sourceRef="WhichKindOfAnimalGateway" targetRef="FetchDogPictureTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=animalKind = "dog"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -50,6 +38,27 @@
       <bpmn:incoming>Flow_1u72rdx</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1u72rdx" sourceRef="SavePictureToDatabaseTask" targetRef="Event_0eh80i2" />
+    <bpmn:serviceTask id="FetchDogPictureTask" name="Fetch dog picture">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="dogPictureFetching" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>DogSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lw1ax7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="FetchCatPictureTask" name="Fetch cat picture">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="catPictureFetching" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>CatSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1p85zxp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="FetchBearPictureTask" name="Fetch bear picture">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="bearPictureFetching" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>BearSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0oxr12h</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="AnimalPictureFetcherProcess">
@@ -65,18 +74,6 @@
           <dc:Bounds x="226" y="186" width="67" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0u13ou3_di" bpmnElement="FetchCatPictureTask">
-        <dc:Bounds x="390" y="190" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_116zs6f_di" bpmnElement="FetchBearPictureTask">
-        <dc:Bounds x="390" y="300" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0m85abu_di" bpmnElement="FetchDogPictureTask">
-        <dc:Bounds x="390" y="80" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_06k52eo_di" bpmnElement="Gateway_06k52eo" isMarkerVisible="true">
         <dc:Bounds x="555" y="205" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -86,6 +83,15 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0eh80i2_di" bpmnElement="Event_0eh80i2">
         <dc:Bounds x="842" y="212" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wbmz2c_di" bpmnElement="FetchDogPictureTask">
+        <dc:Bounds x="390" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1k2nv94_di" bpmnElement="FetchCatPictureTask">
+        <dc:Bounds x="390" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14k647x_di" bpmnElement="FetchBearPictureTask">
+        <dc:Bounds x="390" y="300" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1yb2fgr_di" bpmnElement="Flow_1yb2fgr">
         <di:waypoint x="218" y="230" />
