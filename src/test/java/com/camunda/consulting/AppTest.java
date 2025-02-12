@@ -5,6 +5,8 @@ import io.camunda.process.test.api.CamundaSpringProcessTest;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,15 +16,16 @@ public class AppTest {
   @Autowired
   ZeebeClient zeebeClient;
 
-  @Test
-  void shouldExecuteProcess() {
+  @ParameterizedTest
+  @CsvSource({"dog, Fetch dog picture", "cat, Fetch cat picture", "bear, Fetch bear picture"})
+  void shouldExecuteProcess(String animalKind, String activityName) {
     ProcessInstanceEvent processInstance = zeebeClient
         .newCreateInstanceCommand()
         .bpmnProcessId("AnimalPictureFetcherProcess")
         .latestVersion()
-        .variable("animalKind", "dog")
+        .variable("animalKind", animalKind)
         .send()
         .join();
-    CamundaAssert.assertThat(processInstance).isCompleted().hasCompletedElements("Fetch dog picture");
+    CamundaAssert.assertThat(processInstance).isCompleted().hasCompletedElements(activityName);
   }
 }
