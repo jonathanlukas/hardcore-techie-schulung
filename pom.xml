@@ -36,16 +36,16 @@
       <artifactId>spring-boot-starter-camunda-sdk</artifactId>
       <version>8.6.8</version>
     </dependency>
-    <dependency>
-      <groupId>io.camunda</groupId>
-      <artifactId>spring-boot-starter-camunda-tasklist</artifactId>
-      <version>8.6.8</version>
-    </dependency>
-    <dependency>
-      <groupId>io.camunda.spring</groupId>
-      <artifactId>spring-boot-starter-camunda-operate</artifactId>
-      <version>8.6.4</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>io.camunda</groupId>-->
+<!--      <artifactId>spring-boot-starter-camunda-tasklist</artifactId>-->
+<!--      <version>8.6.8</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>io.camunda.spring</groupId>-->
+<!--      <artifactId>spring-boot-starter-camunda-operate</artifactId>-->
+<!--      <version>8.6.4</version>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>io.camunda</groupId>
       <artifactId>camunda-process-test-spring</artifactId>
@@ -55,6 +55,11 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

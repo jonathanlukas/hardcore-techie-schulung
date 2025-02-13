@@ -11,4 +11,11 @@ public class BearServiceTest {
     byte[] bear = bearService.getBear(200, 200);
     assertThat(bear).isNotNull().isNotEmpty();
   }
+
+  @Test
+  void shouldSetDefaultValuesForNull(){
+    BearService bearService = new BearService();
+    byte[] bear = bearService.getBear(null, null);
+    assertThat(bear).isNotNull().isNotEmpty();
+  }
 }
