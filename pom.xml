@@ -6,6 +6,7 @@
 
   <groupId>com.camunda.consulting</groupId>
   <artifactId>hardcore-techie-schulung</artifactId>
+  <name>Hardcore Techie Schulung</name>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
@@ -36,16 +37,6 @@
       <artifactId>spring-boot-starter-camunda-sdk</artifactId>
       <version>8.6.8</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>io.camunda</groupId>-->
-<!--      <artifactId>spring-boot-starter-camunda-tasklist</artifactId>-->
-<!--      <version>8.6.8</version>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>io.camunda.spring</groupId>-->
-<!--      <artifactId>spring-boot-starter-camunda-operate</artifactId>-->
-<!--      <version>8.6.4</version>-->
-<!--    </dependency>-->
     <dependency>
       <groupId>io.camunda</groupId>
       <artifactId>camunda-process-test-spring</artifactId>
